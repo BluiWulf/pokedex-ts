@@ -1,5 +1,10 @@
+
+import * as repl from "./repl.js";
+import * as st from "./state.js";
+
 function main() {
-  console.log("Hello, world!");
+    const state: st.State = st.initState();
+    repl.startPokedex(state);
 }
 
 main();
