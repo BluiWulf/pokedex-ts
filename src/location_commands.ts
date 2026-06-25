@@ -19,33 +19,33 @@ export type Location = {
     pokemon_encounters:     PokemonEncounter[];
 };
 
-export type EncounterMethodRate = {
+type EncounterMethodRate = {
     encounter_method:       api.CommonData;
     version_details:        EncounterVersion[];
 };
 
-export type EncounterVersion = {
+type EncounterVersion = {
     rate:                   number;
     version:                api.CommonData;
 };
 
-export type LocName = {
+type LocName = {
     name:                   string;
     language:               api.CommonData;
 }
 
-export type PokemonEncounter = {
+type PokemonEncounter = {
     pokemon:                api.CommonData;
     version_details:        PokemonVersion[];
 };
 
-export type PokemonVersion = {
+type PokemonVersion = {
     version:                api.CommonData;
     max_chance:             number;
     encounter_details:      EncounterDetail[];
 };
 
-export type EncounterDetail = {
+type EncounterDetail = {
     min_level:              number;
     max_level:              number;
     condition_values:       api.CommonData[];
@@ -77,4 +77,8 @@ export async function commandMapb(state: st.State) {
     for (const area of areas.results) {
         console.log(area.name);
     }
+}
+
+export async function commandExplore(state: st.State) {
+    
 }
