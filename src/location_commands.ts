@@ -53,7 +53,7 @@ type EncounterDetail = {
     method:                 api.CommonData;
 };
 
-export async function commandMap(state: st.State) {
+export async function commandMap(state: st.State): Promise<void> {
     const areas = await state.api.fetchLocations(state.next ?? undefined);
     
     state.next = areas.next;
@@ -64,7 +64,7 @@ export async function commandMap(state: st.State) {
     }
 }
 
-export async function commandMapb(state: st.State) {
+export async function commandMapb(state: st.State): Promise<void> {
     if (state.prev === null) {
         console.log("You're on the first page");
         return;
@@ -79,6 +79,21 @@ export async function commandMapb(state: st.State) {
     }
 }
 
-export async function commandExplore(state: st.State) {
-    
+export async function commandExplore(state: st.State, ...args: string[]): Promise<void> {
+    if (args.length === 0) {
+        console.error("location area must be provided");
+        return;
+    }
+    if (args.length > 1) {
+        console.error("only provide one location area");
+        return;
+    }
+    const area = args[0];
+    const loc = await state.api.fetchLocation(area);
+
+    console.log(`\nExploring ${area}...\nFound Pokemon:`)
+    for (const encounter of loc.pokemon_encounters) {
+        console.log(` - ${encounter.pokemon.name}`)
+    }
+    console.log("")
 }

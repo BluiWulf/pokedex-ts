@@ -1,7 +1,6 @@
 
-import * as st from "./state.js";
 import * as api from "./pokeapi.js";
-import * as pokesprite from "./pokemon_sprites.js";
+import * as pokeSprite from "./pokemon_sprites.js";
 
 export type PokemonInfo = {
     id:                         number;
@@ -18,7 +17,7 @@ export type PokemonInfo = {
     location_area_encounters:   string;
     moves:                      Move[];
     species:                    api.CommonData;
-    sprites:                    Sprite[];
+    sprites:                    pokeSprite.Sprite[];
     cries:                      Cry;
     stats:                      Stat[];
     types:                      PokeType[];

@@ -16,7 +16,8 @@ export function startPokedex(state: st.State) {
         
         if (words[0] in state.commands) {
             try {
-                await state.commands[words[0]].callback(state);
+                const args = words.slice(1);
+                await state.commands[words[0]].callback(state, ...args);
             } catch (error) {
                 if (error instanceof Error) {
                     console.error(error.message);
@@ -42,6 +43,11 @@ export function getCommands(): Record<string, st.CLICommand> {
             name: "mapb",
             description: "Displays the previous 20 location areas",
             callback: locCmds.commandMapb,
+        },
+        explore: {
+            name: "explore",
+            description: "Displays a list of all Pokemon in a given area (must provide name of Location Area)",
+            callback: locCmds.commandExplore,
         },
         help: {
             name: "help",
