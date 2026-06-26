@@ -1,5 +1,6 @@
 
-import * as locInfo from "./location_commands.js"
+import * as locInfo from "./location_commands.js";
+import * as pokeInfo from "./pokemon_commands.js";
 import * as pokecache from "./pokecache.js";
 
 export type CommonData = {
@@ -8,14 +9,14 @@ export type CommonData = {
 };
 
 export class PokeAPI {
-    private static readonly baseUrl     = "https://pokeapi.co/api/v2";
-    private static readonly areaUrl     = PokeAPI.baseUrl + "/location-area/";
-    private static readonly pokemonUrl  = PokeAPI.baseUrl + "/pokemon/";
+    private static readonly baseUrl = "https://pokeapi.co/api/v2";
+    private static readonly areaUrl = PokeAPI.baseUrl + "/location-area/";
+    private static readonly pokeUrl = PokeAPI.baseUrl + "/pokemon/";
 
     private cache: pokecache.Cache;
 
     constructor(cacheReapInterval: number) {
-        this.cache = new pokecache.Cache(cacheReapInterval)
+        this.cache = new pokecache.Cache(cacheReapInterval);
     }
 
     async fetchLocations(pageUrl?: string): Promise<locInfo.LocationAreas> {
@@ -49,10 +50,33 @@ export class PokeAPI {
             try {
                 const resp = await fetch(page);
                 if (!resp.ok) {
-                    throw new Error(`Error fetching ${locationName} information from PokeAPI: ${resp.status}`);
+                    throw new Error(`Error fetching ${locationName} information from PokeAPI`);
                 }
 
                 const data: locInfo.Location = await resp.json();
+                this.cache.add(page, data);
+                entry = data;
+            } catch (error) {
+                console.error(error);
+                throw error;
+            }
+        }
+
+        return entry;
+    }
+
+    async fetchPokemon(pokemonName: string): Promise<pokeInfo.Pokemon> {
+        const page = PokeAPI.pokeUrl + pokemonName + "/";
+        let entry = this.cache.get<pokeInfo.Pokemon>(page);
+
+        if (!entry) {
+            try {
+                const resp = await fetch(page);
+                if (!resp.ok) {
+                    throw new Error(`Error fetching ${pokemonName} information from PokeAPI`);
+                }
+
+                const data: pokeInfo.Pokemon = await resp.json();
                 this.cache.add(page, data);
                 entry = data;
             } catch (error) {

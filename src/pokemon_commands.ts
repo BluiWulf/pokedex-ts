@@ -1,8 +1,9 @@
 
+import * as st from "./state.js";
 import * as api from "./pokeapi.js";
 import * as pokeSprite from "./pokemon_sprites.js";
 
-export type PokemonInfo = {
+export type Pokemon = {
     id:                         number;
     name:                       string;
     base_experience:            number;
@@ -83,3 +84,73 @@ type PokeType = {
     slot:                       number;
     type:                       api.CommonData;
 };
+
+export async function commandCatch(state: st.State, ...args: string[]): Promise<void> {
+    if (args.length === 0) {
+        console.error("name of Pokemon must be provided");
+        return;
+    }
+    if (args.length > 1) {
+        console.error("only provide one Pokemon to catch");
+        return;
+    }
+    const pokeName = args[0];
+    const pokemon = await state.api.fetchPokemon(pokeName);
+    console.log(`\nThrowing a Pokeball at ${pokeName}...`);
+
+    const baseExp = pokemon.base_experience;
+    let maxExp = 200;
+    if (maxExp < baseExp) {
+        maxExp += (((baseExp - maxExp) / 100) + 1) * 100;
+    }
+    const chance = Math.random() * maxExp;
+    if (chance > baseExp) {
+        console.log(`${pokeName} was caught!\n`);
+        state.dex[pokeName] = pokemon;
+    } else {
+        console.log(`${pokeName} escaped!\n`);
+    }
+}
+
+export async function commandInspect(state: st.State, ...args: string[]): Promise<void> {
+    if (args.length === 0) {
+        console.error("name of Pokemon must be provided");
+        return;
+    }
+    if (args.length > 1) {
+        console.error("only provide one Pokemon to catch");
+        return;
+    }
+    const pokeName = args[0];
+    
+    if (pokeName in state.dex) {
+        const pokemon = state.dex[pokeName];
+        console.log(`\nName: ${pokeName}`);
+        console.log(`Height: ${pokemon.height}`);
+        console.log(`Weight: ${pokemon.weight}`);
+        console.log("Stats:");
+        for (const stat of pokemon.stats) {            
+            console.log(`  - ${stat.stat.name}: ${stat.base_stat}`);
+        }
+        console.log("Types:");
+        for (const types of pokemon.types) {            
+            console.log(`  - ${types.type.name}`);
+        }
+        console.log("");
+    } else {
+        console.error("you have not caught that pokemon");
+    }
+}
+
+export async function commandPokedex(state: st.State): Promise<void> {
+    if (Object.keys(state.dex).length === 0) {
+        console.error("you have not caught any Pokemon");
+        return;
+    }
+
+    console.log("\nYour Pokedex:");
+    for (const pokemon of Object.keys(state.dex)) {
+        console.log(` - ${pokemon}`);
+    }
+    console.log("");
+}

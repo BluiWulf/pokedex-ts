@@ -1,7 +1,7 @@
 
-import * as readline from "node:readline";
 import * as sysCmds from "./system_commands.js";
 import * as locCmds from "./location_commands.js";
+import * as pokeCmds from "./pokemon_commands.js";
 import * as st from "./state.js";
 
 // Core Functions
@@ -26,7 +26,7 @@ export function startPokedex(state: st.State) {
                 }
             }
         } else {
-            console.log("Unknown command");
+            console.error("unknown command");
         }
         state.scanner.prompt();
     });
@@ -48,6 +48,21 @@ export function getCommands(): Record<string, st.CLICommand> {
             name: "explore",
             description: "Displays a list of all Pokemon in a given area (must provide name of Location Area)",
             callback: locCmds.commandExplore,
+        },
+        catch: {
+            name: "catch",
+            description: "Attempts to catch the Pokemon (must provide name of Pokemon)",
+            callback: pokeCmds.commandCatch,
+        },
+        inspect: {
+            name: "inspect",
+            description: "Display details about caught Pokemon (must provide name of Pokemon)",
+            callback: pokeCmds.commandInspect,
+        },
+        pokedex: {
+            name: "pokedex",
+            description: "Displays a list of all Pokemon caught and registered in the Pokedex",
+            callback: pokeCmds.commandPokedex,
         },
         help: {
             name: "help",

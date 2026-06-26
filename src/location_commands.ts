@@ -59,9 +59,11 @@ export async function commandMap(state: st.State): Promise<void> {
     state.next = areas.next;
     state.prev = areas.previous;
 
+    console.log("");
     for (const area of areas.results) {
         console.log(area.name);
     }
+    console.log("");
 }
 
 export async function commandMapb(state: st.State): Promise<void> {
@@ -74,9 +76,11 @@ export async function commandMapb(state: st.State): Promise<void> {
     state.next = areas.next;
     state.prev = areas.previous;
 
+    console.log("")
     for (const area of areas.results) {
         console.log(area.name);
     }
+    console.log("")
 }
 
 export async function commandExplore(state: st.State, ...args: string[]): Promise<void> {
@@ -91,9 +95,9 @@ export async function commandExplore(state: st.State, ...args: string[]): Promis
     const area = args[0];
     const loc = await state.api.fetchLocation(area);
 
-    console.log(`\nExploring ${area}...\nFound Pokemon:`)
+    console.log(`\nExploring ${area}...\nFound Pokemon:`);
     for (const encounter of loc.pokemon_encounters) {
-        console.log(` - ${encounter.pokemon.name}`)
+        console.log(` - ${encounter.pokemon.name}`);
     }
-    console.log("")
+    console.log("");
 }
