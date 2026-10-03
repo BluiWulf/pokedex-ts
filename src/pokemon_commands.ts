@@ -142,6 +142,7 @@ export async function commandInspect(state: st.State, ...args: string[]): Promis
     }
 }
 
+// Command to display all Pokemon currently registered on the Pokedex
 export async function commandPokedex(state: st.State): Promise<void> {
     if (Object.keys(state.dex).length === 0) {
         console.error("you have not caught any Pokemon");
