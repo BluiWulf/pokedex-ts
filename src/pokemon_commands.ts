@@ -112,6 +112,7 @@ export async function commandCatch(state: st.State, ...args: string[]): Promise<
     }
 }
 
+// Command to inspect a specific Pokemon and return information if it is in the Pokedex
 export async function commandInspect(state: st.State, ...args: string[]): Promise<void> {
     if (args.length === 0) {
         console.error("name of Pokemon must be provided");
