@@ -85,6 +85,7 @@ type PokeType = {
     type:                       api.CommonData;
 };
 
+// Command to catch the specified Pokemon and add to the Pokedex if successful
 export async function commandCatch(state: st.State, ...args: string[]): Promise<void> {
     if (args.length === 0) {
         console.error("name of Pokemon must be provided");
