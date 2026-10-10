@@ -75,11 +75,13 @@ type Stat = {
     stat:                       api.CommonData;
 };
 
+// Pokemon's previous types and generations they apply to
 type PastType = {
     generation:                 api.CommonData;
     types:                      PokeType[];
 };
 
+// Pokemon's main type and slot in the Pokedex
 type PokeType = {
     slot:                       number;
     type:                       api.CommonData;
