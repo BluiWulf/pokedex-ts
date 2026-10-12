@@ -52,11 +52,13 @@ type ItemVersion = {
     version:                    api.CommonData;
 };
 
+// Pokemon battle move object
 type Move = {
     move:                       api.CommonData;
     version_group_details:      VersionGroupDetail[];
 };
 
+// Move version information
 type VersionGroupDetail = {
     level_learned_at:           number;
     version_group:              api.CommonData;
