@@ -64,11 +64,13 @@ type VersionGroupDetail = {
     order:                      number;
 };
 
+// The URLs corresponding to the PokeAPI location of the Pokemon cry audio clips
 type Cry = {
     latest:                     string;
     legacy:                     string;
 };
 
+// An Pokemon's individual stat (i.e., ATK, DEF, SPD, etc.)
 type Stat = {
     base_stat:                  number;
     effort:                     number;
